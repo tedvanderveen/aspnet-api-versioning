@@ -1,0 +1,333 @@
+openapi: 3.0.1
+info:
+  title: Sample API
+  description: "An example application with OData, OpenAPI, Swashbuckle, and API versioning. This API version has been deprecated. The API will be sunset on 10/20/2023.\r\n\r\nVersioning Policy: policy.html"
+  contact:
+    name: Bill Mei
+    email: bill.mei@somewhere.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: '0.9'
+paths:
+  '/api/GetSalesTaxRate(PostalCode={postalCode})':
+    get:
+      tags:
+        - Functions
+      summary: Gets the sales tax for a postal code.
+      parameters:
+        - name: postalCode
+          in: path
+          description: The postal code to get the sales tax for.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json;odata.metadata=minimal;odata.streaming=true:
+              schema:
+                type: number
+                format: double
+            application/json;odata.metadata=minimal;odata.streaming=false:
+              schema:
+                type: number
+                format: double
+            application/json;odata.metadata=minimal:
+              schema:
+                type: number
+                format: double
+            application/json;odata.metadata=full;odata.streaming=true:
+              schema:
+                type: number
+                format: double
+            application/json;odata.metadata=full;odata.streaming=false:
+              schema:
+                type: number
+                format: double
+            application/json;odata.metadata=full:
+              schema:
+                type: number
+                format: double
+            application/json;odata.metadata=none;odata.streaming=true:
+              schema:
+                type: number
+                format: double
+            application/json;odata.metadata=none;odata.streaming=false:
+              schema:
+                type: number
+                format: double
+            application/json;odata.metadata=none:
+              schema:
+                type: number
+                format: double
+            application/json;odata.streaming=true:
+              schema:
+                type: number
+                format: double
+            application/json;odata.streaming=false:
+              schema:
+                type: number
+                format: double
+            application/json:
+              schema:
+                type: number
+                format: double
+            application/xml:
+              schema:
+                type: number
+                format: double
+            text/plain:
+              schema:
+                type: number
+                format: double
+            application/octet-stream:
+              schema:
+                type: number
+                format: double
+            text/json:
+              schema:
+                type: number
+                format: double
+  '/api/Orders/{key}':
+    get:
+      tags:
+        - Orders
+      summary: Gets a single order.
+      operationId: 'api/Orders/{key}'
+      parameters:
+        - name: key
+          in: path
+          description: The requested order identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '0.9'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The order was successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          description: The order does not exist.
+      deprecated: true
+  '/api/Orders/{key}/lineItems':
+    get:
+      tags:
+        - Orders
+      summary: Gets the line items for the specified order.
+      operationId: 'api/Orders/{key}/lineItems'
+      parameters:
+        - name: key
+          in: path
+          description: The order identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '0.9'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+        - name: count
+          in: query
+          description: Indicates whether the total count of items within a collection are returned in the result.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: The line items were successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LineItemIEnumerableODataValue'
+        '404':
+          description: The order does not exist.
+      deprecated: true
+  '/api/Orders/{key}/lineItems/$count':
+    get:
+      tags:
+        - Orders
+      summary: Gets the line items for the specified order.
+      operationId: 'api/Orders/{key}/lineItems/$count'
+      parameters:
+        - name: key
+          in: path
+          description: The order identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '0.9'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+        - name: count
+          in: query
+          description: Indicates whether the total count of items within a collection are returned in the result.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: The line items were successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LineItemIEnumerableODataValue'
+        '404':
+          description: The order does not exist.
+      deprecated: true
+  '/api/People/{key}':
+    get:
+      tags:
+        - People
+      summary: Gets a single person.
+      operationId: 'api/People/{key}'
+      parameters:
+        - name: key
+          in: path
+          description: The requested person identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '0.9'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The person was successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        '404':
+          description: The person does not exist.
+      deprecated: true
+components:
+  schemas:
+    LineItem:
+      type: object
+      properties:
+        number:
+          type: integer
+          description: Gets or sets the line item number.
+          format: int32
+        description:
+          type: string
+          description: Gets or sets the line item description.
+          nullable: true
+        quantity:
+          type: integer
+          description: Gets or sets the line item quantity.
+          format: int32
+        unitPrice:
+          type: number
+          description: Gets or sets the line item unit price.
+          format: double
+      additionalProperties: false
+      description: Represents the line item on an order.
+    LineItemIEnumerableODataValue:
+      type: object
+      properties:
+        value:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineItem'
+          nullable: true
+      additionalProperties: false
+    Order:
+      required:
+        - customer
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Gets or sets the unique identifier for the order.
+          format: int32
+        createdDate:
+          type: string
+          description: Gets or sets the date and time when the order was created.
+          format: date-time
+        customer:
+          minLength: 1
+          type: string
+          description: Gets or sets the name of the ordering customer.
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineItem'
+          description: Gets a list of line items in the order.
+          nullable: true
+      additionalProperties: false
+      description: Represents an order.
+    Person:
+      required:
+        - firstName
+        - lastName
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Gets or sets the unique identifier for a person.
+          format: int32
+        firstName:
+          maxLength: 25
+          minLength: 0
+          type: string
+          description: Gets or sets the first name of a person.
+        lastName:
+          maxLength: 25
+          minLength: 0
+          type: string
+          description: Gets or sets the last name of a person.
+      additionalProperties: false
+      description: Represents a person.

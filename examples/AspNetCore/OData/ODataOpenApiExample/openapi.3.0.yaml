@@ -1,0 +1,3201 @@
+openapi: 3.0.1
+info:
+  title: Sample API
+  description: 'An example application with OData, OpenAPI, Swashbuckle, and API versioning.'
+  contact:
+    name: Bill Mei
+    email: bill.mei@somewhere.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: '3.0'
+paths:
+  /api/Acme:
+    get:
+      tags:
+        - Acme
+      summary: Retrieves the ACME supplier.
+      operationId: api/Acme
+      parameters:
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+        - name: expand
+          in: query
+          description: Indicates the related entities to be represented inline. The maximum depth is 2.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The supplier successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierODataValue'
+  /api/Acme/products:
+    get:
+      tags:
+        - Acme
+      summary: Gets the products associated with the supplier.
+      operationId: api/Acme/products
+      parameters:
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+        - name: expand
+          in: query
+          description: Indicates the related entities to be represented inline. The maximum depth is 2.
+          schema:
+            type: string
+        - name: filter
+          in: query
+          description: 'Restricts the set of items returned. The maximum number of expressions is 100. The allowed functions are: allfunctions.'
+          schema:
+            type: string
+        - name: orderby
+          in: query
+          description: Specifies the order in which items are returned. The maximum number of expressions is 5.
+          schema:
+            type: string
+        - name: top
+          in: query
+          description: Limits the number of items returned from a collection. The maximum value is 100.
+          schema:
+            type: integer
+            format: int32
+        - name: skip
+          in: query
+          description: Excludes the specified number of items of the queried collection from the result.
+          schema:
+            type: integer
+            format: int32
+        - name: count
+          in: query
+          description: Indicates whether the total count of items within a collection are returned in the result.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json;odata.metadata=minimal;odata.streaming=true:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=minimal;odata.streaming=false:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=minimal:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=full;odata.streaming=true:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=full;odata.streaming=false:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=full:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=none;odata.streaming=true:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=none;odata.streaming=false:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=none:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.streaming=true:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.streaming=false:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/octet-stream:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+  /api/Acme/products/$count:
+    get:
+      tags:
+        - Acme
+      summary: Gets the products associated with the supplier.
+      operationId: api/Acme/products/$count
+      parameters:
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+        - name: expand
+          in: query
+          description: Indicates the related entities to be represented inline. The maximum depth is 2.
+          schema:
+            type: string
+        - name: filter
+          in: query
+          description: 'Restricts the set of items returned. The maximum number of expressions is 100. The allowed functions are: allfunctions.'
+          schema:
+            type: string
+        - name: orderby
+          in: query
+          description: Specifies the order in which items are returned. The maximum number of expressions is 5.
+          schema:
+            type: string
+        - name: top
+          in: query
+          description: Limits the number of items returned from a collection. The maximum value is 100.
+          schema:
+            type: integer
+            format: int32
+        - name: skip
+          in: query
+          description: Excludes the specified number of items of the queried collection from the result.
+          schema:
+            type: integer
+            format: int32
+        - name: count
+          in: query
+          description: Indicates whether the total count of items within a collection are returned in the result.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json;odata.metadata=minimal;odata.streaming=true:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=minimal;odata.streaming=false:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=minimal:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=full;odata.streaming=true:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=full;odata.streaming=false:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=full:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=none;odata.streaming=true:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=none;odata.streaming=false:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=none:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.streaming=true:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.streaming=false:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/octet-stream:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+  '/api/Acme/products/{relatedKey}/$ref':
+    delete:
+      tags:
+        - Acme
+      summary: Unlinks a product from a supplier.
+      operationId: 'api/Acme/{navigationProperty}/{relatedKey}/$ref'
+      parameters:
+        - name: relatedKey
+          in: path
+          description: The related entity identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+  /api/Acme/products/$ref:
+    put:
+      tags:
+        - Acme
+      summary: Links a product to a supplier.
+      operationId: 'api/Acme/{navigationProperty}/$ref'
+      parameters:
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+      requestBody:
+        description: The related entity identifier.
+        content:
+          application/json;odata.metadata=minimal;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.metadata=minimal;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.metadata=minimal:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.metadata=full;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.metadata=full;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.metadata=full:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.metadata=none;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.metadata=none;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.metadata=none:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+  '/api/GetSalesTaxRate(PostalCode={postalCode})':
+    get:
+      tags:
+        - Functions
+      summary: Gets the sales tax for a postal code.
+      parameters:
+        - name: postalCode
+          in: path
+          description: The postal code to get the sales tax for.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json;odata.metadata=minimal;odata.streaming=true:
+              schema:
+                type: number
+                format: double
+            application/json;odata.metadata=minimal;odata.streaming=false:
+              schema:
+                type: number
+                format: double
+            application/json;odata.metadata=minimal:
+              schema:
+                type: number
+                format: double
+            application/json;odata.metadata=full;odata.streaming=true:
+              schema:
+                type: number
+                format: double
+            application/json;odata.metadata=full;odata.streaming=false:
+              schema:
+                type: number
+                format: double
+            application/json;odata.metadata=full:
+              schema:
+                type: number
+                format: double
+            application/json;odata.metadata=none;odata.streaming=true:
+              schema:
+                type: number
+                format: double
+            application/json;odata.metadata=none;odata.streaming=false:
+              schema:
+                type: number
+                format: double
+            application/json;odata.metadata=none:
+              schema:
+                type: number
+                format: double
+            application/json;odata.streaming=true:
+              schema:
+                type: number
+                format: double
+            application/json;odata.streaming=false:
+              schema:
+                type: number
+                format: double
+            application/json:
+              schema:
+                type: number
+                format: double
+            application/xml:
+              schema:
+                type: number
+                format: double
+            text/plain:
+              schema:
+                type: number
+                format: double
+            application/octet-stream:
+              schema:
+                type: number
+                format: double
+            text/json:
+              schema:
+                type: number
+                format: double
+  /api/Orders:
+    get:
+      tags:
+        - Orders
+      summary: Retrieves all orders.
+      operationId: api/Orders
+      parameters:
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: 'Limits the properties returned in the result. The allowed properties are: id, createdDate, customer, description, lineItems.'
+          schema:
+            type: string
+        - name: top
+          in: query
+          description: Limits the number of items returned from a collection. The maximum value is 100.
+          schema:
+            type: integer
+            format: int32
+        - name: skip
+          in: query
+          description: Excludes the specified number of items of the queried collection from the result.
+          schema:
+            type: integer
+            format: int32
+        - name: count
+          in: query
+          description: Indicates whether the total count of items within a collection are returned in the result.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Orders successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderIEnumerableODataValue'
+        '400':
+          description: The order is invalid.
+    post:
+      tags:
+        - Orders
+      summary: Places a new order.
+      operationId: api/Orders
+      parameters:
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: 'Limits the properties returned in the result. The allowed properties are: id, createdDate, customer, description, lineItems.'
+          schema:
+            type: string
+      requestBody:
+        description: The order to place.
+        content:
+          application/json;odata.metadata=minimal;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/json;odata.metadata=minimal;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/json;odata.metadata=minimal:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/json;odata.metadata=full;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/json;odata.metadata=full;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/json;odata.metadata=full:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/json;odata.metadata=none;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/json;odata.metadata=none;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/json;odata.metadata=none:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/json;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/json;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Order'
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/Order'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '201':
+          description: The order was successfully placed.
+          content:
+            application/json;odata.metadata=minimal;odata.streaming=true:
+              schema:
+                $ref: '#/components/schemas/Order'
+            application/json;odata.metadata=minimal;odata.streaming=false:
+              schema:
+                $ref: '#/components/schemas/Order'
+            application/json;odata.metadata=minimal:
+              schema:
+                $ref: '#/components/schemas/Order'
+            application/json;odata.metadata=full;odata.streaming=true:
+              schema:
+                $ref: '#/components/schemas/Order'
+            application/json;odata.metadata=full;odata.streaming=false:
+              schema:
+                $ref: '#/components/schemas/Order'
+            application/json;odata.metadata=full:
+              schema:
+                $ref: '#/components/schemas/Order'
+            application/json;odata.metadata=none;odata.streaming=true:
+              schema:
+                $ref: '#/components/schemas/Order'
+            application/json;odata.metadata=none;odata.streaming=false:
+              schema:
+                $ref: '#/components/schemas/Order'
+            application/json;odata.metadata=none:
+              schema:
+                $ref: '#/components/schemas/Order'
+            application/json;odata.streaming=true:
+              schema:
+                $ref: '#/components/schemas/Order'
+            application/json;odata.streaming=false:
+              schema:
+                $ref: '#/components/schemas/Order'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Order'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Order'
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/Order'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          description: The order is invalid.
+  /api/Orders/$count:
+    get:
+      tags:
+        - Orders
+      summary: Retrieves all orders.
+      operationId: api/Orders/$count
+      parameters:
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: 'Limits the properties returned in the result. The allowed properties are: id, createdDate, customer, description, lineItems.'
+          schema:
+            type: string
+        - name: top
+          in: query
+          description: Limits the number of items returned from a collection. The maximum value is 100.
+          schema:
+            type: integer
+            format: int32
+        - name: skip
+          in: query
+          description: Excludes the specified number of items of the queried collection from the result.
+          schema:
+            type: integer
+            format: int32
+        - name: count
+          in: query
+          description: Indicates whether the total count of items within a collection are returned in the result.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Orders successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderIEnumerableODataValue'
+        '400':
+          description: The order is invalid.
+  '/api/Orders/{key}':
+    get:
+      tags:
+        - Orders
+      summary: Gets a single order.
+      operationId: 'api/Orders/{key}'
+      parameters:
+        - name: key
+          in: path
+          description: The requested order identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: 'Limits the properties returned in the result. The allowed properties are: id, createdDate, customer, description, lineItems.'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The order was successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          description: The order does not exist.
+    patch:
+      tags:
+        - Orders
+      summary: Updates an existing order.
+      operationId: 'api/Orders/{key}'
+      parameters:
+        - name: key
+          in: path
+          description: The requested order identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: 'Limits the properties returned in the result. The allowed properties are: id, createdDate, customer, description, lineItems.'
+          schema:
+            type: string
+      requestBody:
+        description: The partial order to update.
+        content:
+          application/json;odata.metadata=minimal;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/json;odata.metadata=minimal;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/json;odata.metadata=minimal:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/json;odata.metadata=full;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/json;odata.metadata=full;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/json;odata.metadata=full:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/json;odata.metadata=none;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/json;odata.metadata=none;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/json;odata.metadata=none:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/json;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/json;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Order'
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/Order'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '204':
+          description: The order was successfully updated.
+        '400':
+          description: The order is invalid.
+        '404':
+          description: The order does not exist.
+    delete:
+      tags:
+        - Orders
+      summary: Cancels an order.
+      operationId: 'api/Orders/{key}'
+      parameters:
+        - name: key
+          in: path
+          description: The order to cancel.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: suspendOnly
+          in: query
+          description: Indicates if the order should only be suspended.
+          schema:
+            type: boolean
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+      responses:
+        '204':
+          description: The order was successfully canceled.
+        '404':
+          description: The order does not exist.
+  /api/Orders/MostExpensive:
+    get:
+      tags:
+        - Orders
+      summary: Gets the most expensive order.
+      operationId: api/Orders/MostExpensive
+      parameters:
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: 'Limits the properties returned in the result. The allowed properties are: id, createdDate, customer, description, lineItems.'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The order was successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          description: The no orders exist.
+  '/api/Orders/{key}/Rate':
+    post:
+      tags:
+        - Orders
+      summary: Rates an order.
+      operationId: 'api/Orders/{key}/Rate'
+      parameters:
+        - name: key
+          in: path
+          description: The requested order identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+      requestBody:
+        description: The action parameters.
+        content:
+          application/json;odata.metadata=minimal;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/OrdersRateParameters'
+          application/json;odata.metadata=minimal;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/OrdersRateParameters'
+          application/json;odata.metadata=minimal:
+            schema:
+              $ref: '#/components/schemas/OrdersRateParameters'
+          application/json;odata.metadata=full;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/OrdersRateParameters'
+          application/json;odata.metadata=full;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/OrdersRateParameters'
+          application/json;odata.metadata=full:
+            schema:
+              $ref: '#/components/schemas/OrdersRateParameters'
+          application/json;odata.metadata=none;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/OrdersRateParameters'
+          application/json;odata.metadata=none;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/OrdersRateParameters'
+          application/json;odata.metadata=none:
+            schema:
+              $ref: '#/components/schemas/OrdersRateParameters'
+          application/json;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/OrdersRateParameters'
+          application/json;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/OrdersRateParameters'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrdersRateParameters'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/OrdersRateParameters'
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/OrdersRateParameters'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/OrdersRateParameters'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/OrdersRateParameters'
+      responses:
+        '204':
+          description: The order was successfully rated.
+        '400':
+          description: The parameters are invalid.
+        '404':
+          description: The order does not exist.
+  '/api/Orders/{key}/lineItems':
+    get:
+      tags:
+        - Orders
+      summary: Gets the line items for the specified order.
+      operationId: 'api/Orders/{key}/lineItems'
+      parameters:
+        - name: key
+          in: path
+          description: The order identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+        - name: count
+          in: query
+          description: Indicates whether the total count of items within a collection are returned in the result.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: The line items were successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LineItemIEnumerableODataValue'
+        '404':
+          description: The order does not exist.
+  '/api/Orders/{key}/lineItems/$count':
+    get:
+      tags:
+        - Orders
+      summary: Gets the line items for the specified order.
+      operationId: 'api/Orders/{key}/lineItems/$count'
+      parameters:
+        - name: key
+          in: path
+          description: The order identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+        - name: count
+          in: query
+          description: Indicates whether the total count of items within a collection are returned in the result.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: The line items were successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LineItemIEnumerableODataValue'
+        '404':
+          description: The order does not exist.
+  /api/People:
+    get:
+      tags:
+        - People
+      summary: Gets all people.
+      operationId: api/People
+      parameters:
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+        - name: orderby
+          in: query
+          description: 'Specifies the order in which items are returned. The maximum number of expressions is 5. The allowed properties are: firstName, lastName.'
+          schema:
+            type: string
+        - name: top
+          in: query
+          description: Limits the number of items returned from a collection. The maximum value is 100.
+          schema:
+            type: integer
+            format: int32
+        - name: skip
+          in: query
+          description: Excludes the specified number of items of the queried collection from the result.
+          schema:
+            type: integer
+            format: int32
+        - name: count
+          in: query
+          description: Indicates whether the total count of items within a collection are returned in the result.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: The successfully retrieved people.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonIEnumerableODataValue'
+    post:
+      tags:
+        - People
+      summary: Creates a new person.
+      operationId: api/People
+      parameters:
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+      requestBody:
+        description: The person to create.
+        content:
+          application/json;odata.metadata=minimal;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Person'
+          application/json;odata.metadata=minimal;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Person'
+          application/json;odata.metadata=minimal:
+            schema:
+              $ref: '#/components/schemas/Person'
+          application/json;odata.metadata=full;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Person'
+          application/json;odata.metadata=full;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Person'
+          application/json;odata.metadata=full:
+            schema:
+              $ref: '#/components/schemas/Person'
+          application/json;odata.metadata=none;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Person'
+          application/json;odata.metadata=none;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Person'
+          application/json;odata.metadata=none:
+            schema:
+              $ref: '#/components/schemas/Person'
+          application/json;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Person'
+          application/json;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Person'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Person'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Person'
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/Person'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Person'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Person'
+      responses:
+        '201':
+          description: The person was successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        '400':
+          description: The person was invalid.
+  /api/People/$count:
+    get:
+      tags:
+        - People
+      summary: Gets all people.
+      operationId: api/People/$count
+      parameters:
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+        - name: orderby
+          in: query
+          description: 'Specifies the order in which items are returned. The maximum number of expressions is 5. The allowed properties are: firstName, lastName.'
+          schema:
+            type: string
+        - name: top
+          in: query
+          description: Limits the number of items returned from a collection. The maximum value is 100.
+          schema:
+            type: integer
+            format: int32
+        - name: skip
+          in: query
+          description: Excludes the specified number of items of the queried collection from the result.
+          schema:
+            type: integer
+            format: int32
+        - name: count
+          in: query
+          description: Indicates whether the total count of items within a collection are returned in the result.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: The successfully retrieved people.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonIEnumerableODataValue'
+  '/api/People/{key}':
+    get:
+      tags:
+        - People
+      summary: Gets a single person.
+      operationId: 'api/People/{key}'
+      parameters:
+        - name: key
+          in: path
+          description: The requested person identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The person was successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        '404':
+          description: The person does not exist.
+  '/api/People/NewHires(Since={since})':
+    get:
+      tags:
+        - People
+      summary: Gets the new hires since the specified date.
+      parameters:
+        - name: since
+          in: path
+          description: The date and time since people were hired.
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+        - name: orderby
+          in: query
+          description: 'Specifies the order in which items are returned. The maximum number of expressions is 5. The allowed properties are: firstName, lastName.'
+          schema:
+            type: string
+        - name: top
+          in: query
+          description: Limits the number of items returned from a collection. The maximum value is 100.
+          schema:
+            type: integer
+            format: int32
+        - name: skip
+          in: query
+          description: Excludes the specified number of items of the queried collection from the result.
+          schema:
+            type: integer
+            format: int32
+        - name: count
+          in: query
+          description: Indicates whether the total count of items within a collection are returned in the result.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: The people were successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonIEnumerableODataValue'
+  '/api/People/{key}/Promote':
+    post:
+      tags:
+        - People
+      summary: Promotes a person.
+      operationId: 'api/People/{key}/Promote'
+      parameters:
+        - name: key
+          in: path
+          description: The identifier of the person to promote.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+      requestBody:
+        description: The action parameters.
+        content:
+          application/json;odata.metadata=minimal;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/PeoplePromoteParameters'
+          application/json;odata.metadata=minimal;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/PeoplePromoteParameters'
+          application/json;odata.metadata=minimal:
+            schema:
+              $ref: '#/components/schemas/PeoplePromoteParameters'
+          application/json;odata.metadata=full;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/PeoplePromoteParameters'
+          application/json;odata.metadata=full;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/PeoplePromoteParameters'
+          application/json;odata.metadata=full:
+            schema:
+              $ref: '#/components/schemas/PeoplePromoteParameters'
+          application/json;odata.metadata=none;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/PeoplePromoteParameters'
+          application/json;odata.metadata=none;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/PeoplePromoteParameters'
+          application/json;odata.metadata=none:
+            schema:
+              $ref: '#/components/schemas/PeoplePromoteParameters'
+          application/json;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/PeoplePromoteParameters'
+          application/json;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/PeoplePromoteParameters'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PeoplePromoteParameters'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/PeoplePromoteParameters'
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/PeoplePromoteParameters'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/PeoplePromoteParameters'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/PeoplePromoteParameters'
+      responses:
+        '204':
+          description: The person was successfully promoted.
+        '400':
+          description: The parameters are invalid.
+        '404':
+          description: The person does not exist.
+  '/api/People/{key}/homeAddress':
+    get:
+      tags:
+        - People
+      summary: Gets the home address of a person.
+      operationId: 'api/People/{key}/homeAddress'
+      parameters:
+        - name: key
+          in: path
+          description: The person identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The home address was successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+        '404':
+          description: The person does not exist.
+  '/api/People/{key}/workAddress':
+    get:
+      tags:
+        - People
+      summary: Gets the work address of a person.
+      operationId: 'api/People/{key}/workAddress'
+      parameters:
+        - name: key
+          in: path
+          description: The person identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The work address was successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+        '404':
+          description: The person does not exist.
+  /api/Products:
+    get:
+      tags:
+        - Products
+      summary: Retrieves all products.
+      operationId: api/Products
+      parameters:
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+        - name: expand
+          in: query
+          description: Indicates the related entities to be represented inline. The maximum depth is 2.
+          schema:
+            type: string
+        - name: filter
+          in: query
+          description: 'Restricts the set of items returned. The maximum number of expressions is 100. The allowed functions are: allfunctions.'
+          schema:
+            type: string
+        - name: orderby
+          in: query
+          description: Specifies the order in which items are returned. The maximum number of expressions is 5.
+          schema:
+            type: string
+        - name: top
+          in: query
+          description: Limits the number of items returned from a collection. The maximum value is 100.
+          schema:
+            type: integer
+            format: int32
+        - name: skip
+          in: query
+          description: Excludes the specified number of items of the queried collection from the result.
+          schema:
+            type: integer
+            format: int32
+        - name: count
+          in: query
+          description: Indicates whether the total count of items within a collection are returned in the result.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Products successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductIEnumerableODataValue'
+    post:
+      tags:
+        - Products
+      summary: Creates a new product.
+      operationId: api/Products
+      parameters:
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+      requestBody:
+        description: The product to create.
+        content:
+          application/json;odata.metadata=minimal;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.metadata=minimal;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.metadata=minimal:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.metadata=full;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.metadata=full;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.metadata=full:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.metadata=none;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.metadata=none;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.metadata=none:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Product'
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/Product'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '201':
+          description: The product was successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '204':
+          description: The product was successfully created.
+        '400':
+          description: The product is invalid.
+  /api/Products/$count:
+    get:
+      tags:
+        - Products
+      summary: Retrieves all products.
+      operationId: api/Products/$count
+      parameters:
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+        - name: expand
+          in: query
+          description: Indicates the related entities to be represented inline. The maximum depth is 2.
+          schema:
+            type: string
+        - name: filter
+          in: query
+          description: 'Restricts the set of items returned. The maximum number of expressions is 100. The allowed functions are: allfunctions.'
+          schema:
+            type: string
+        - name: orderby
+          in: query
+          description: Specifies the order in which items are returned. The maximum number of expressions is 5.
+          schema:
+            type: string
+        - name: top
+          in: query
+          description: Limits the number of items returned from a collection. The maximum value is 100.
+          schema:
+            type: integer
+            format: int32
+        - name: skip
+          in: query
+          description: Excludes the specified number of items of the queried collection from the result.
+          schema:
+            type: integer
+            format: int32
+        - name: count
+          in: query
+          description: Indicates whether the total count of items within a collection are returned in the result.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Products successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductIEnumerableODataValue'
+  '/api/Products/{key}':
+    get:
+      tags:
+        - Products
+      summary: Gets a single product.
+      operationId: 'api/Products/{key}'
+      parameters:
+        - name: key
+          in: path
+          description: The requested product identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+        - name: expand
+          in: query
+          description: Indicates the related entities to be represented inline. The maximum depth is 2.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The product was successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: The product does not exist.
+    patch:
+      tags:
+        - Products
+      summary: Updates an existing product.
+      operationId: 'api/Products/{key}'
+      parameters:
+        - name: key
+          in: path
+          description: The requested product identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+      requestBody:
+        description: The partial product to update.
+        content:
+          application/json;odata.metadata=minimal;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.metadata=minimal;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.metadata=minimal:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.metadata=full;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.metadata=full;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.metadata=full:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.metadata=none;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.metadata=none;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.metadata=none:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Product'
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/Product'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: The product was successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '204':
+          description: The product was successfully updated.
+        '400':
+          description: The product is invalid.
+        '404':
+          description: The product does not exist.
+    put:
+      tags:
+        - Products
+      summary: Updates an existing product.
+      operationId: 'api/Products/{key}'
+      parameters:
+        - name: key
+          in: path
+          description: The requested product identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+      requestBody:
+        description: The product to update.
+        content:
+          application/json;odata.metadata=minimal;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.metadata=minimal;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.metadata=minimal:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.metadata=full;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.metadata=full;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.metadata=full:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.metadata=none;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.metadata=none;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.metadata=none:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Product'
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/Product'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: The product was successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '204':
+          description: The product was successfully updated.
+        '400':
+          description: The product is invalid.
+        '404':
+          description: The product does not exist.
+    delete:
+      tags:
+        - Products
+      summary: Deletes a product.
+      operationId: 'api/Products/{key}'
+      parameters:
+        - name: key
+          in: path
+          description: The product to delete.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+      responses:
+        '204':
+          description: The product was successfully deleted.
+        '404':
+          description: Not Found
+  '/api/Products/{key}/supplier':
+    get:
+      tags:
+        - Products
+      summary: Gets the supplier associated with the product.
+      operationId: 'api/Products/{key}/supplier'
+      parameters:
+        - name: key
+          in: path
+          description: The product identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+        - name: expand
+          in: query
+          description: Indicates the related entities to be represented inline. The maximum depth is 2.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Supplier'
+        '404':
+          description: Not Found
+  '/api/Products/{key}/supplier/{relatedKey}/$ref':
+    delete:
+      tags:
+        - Products
+      summary: Unlinks a supplier from a product.
+      operationId: 'api/Products/{key}/{navigationProperty}/{relatedKey}/$ref'
+      parameters:
+        - name: key
+          in: path
+          description: The product identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: relatedKey
+          in: path
+          description: The related entity identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+  '/api/Products/{key}/supplier/$ref':
+    put:
+      tags:
+        - Products
+      summary: Links a supplier to a product.
+      operationId: 'api/Products/{key}/{navigationProperty}/$ref'
+      parameters:
+        - name: key
+          in: path
+          description: The product identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+      requestBody:
+        description: The related entity identifier.
+        content:
+          application/json;odata.metadata=minimal;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.metadata=minimal;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.metadata=minimal:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.metadata=full;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.metadata=full;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.metadata=full:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.metadata=none;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.metadata=none;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.metadata=none:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+    get:
+      tags:
+        - Products
+      summary: 'Gets the link to the associated supplier, if any.'
+      operationId: 'api/Products/{key}/{navigationProperty}/$ref'
+      parameters:
+        - name: key
+          in: path
+          description: The product identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+      requestBody:
+        content: { }
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ODataId'
+        '404':
+          description: Not Found
+  /api/Suppliers:
+    get:
+      tags:
+        - Suppliers
+      summary: Retrieves all suppliers.
+      operationId: api/Suppliers
+      parameters:
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+        - name: expand
+          in: query
+          description: Indicates the related entities to be represented inline. The maximum depth is 2.
+          schema:
+            type: string
+        - name: filter
+          in: query
+          description: 'Restricts the set of items returned. The maximum number of expressions is 100. The allowed functions are: allfunctions.'
+          schema:
+            type: string
+        - name: orderby
+          in: query
+          description: Specifies the order in which items are returned. The maximum number of expressions is 5.
+          schema:
+            type: string
+        - name: top
+          in: query
+          description: Limits the number of items returned from a collection. The maximum value is 100.
+          schema:
+            type: integer
+            format: int32
+        - name: skip
+          in: query
+          description: Excludes the specified number of items of the queried collection from the result.
+          schema:
+            type: integer
+            format: int32
+        - name: count
+          in: query
+          description: Indicates whether the total count of items within a collection are returned in the result.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Suppliers successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierIEnumerableODataValue'
+    post:
+      tags:
+        - Suppliers
+      summary: Creates a new supplier.
+      operationId: api/Suppliers
+      parameters:
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+      requestBody:
+        description: The supplier to create.
+        content:
+          application/json;odata.metadata=minimal;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.metadata=minimal;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.metadata=minimal:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.metadata=full;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.metadata=full;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.metadata=full:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.metadata=none;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.metadata=none;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.metadata=none:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+      responses:
+        '201':
+          description: The supplier was successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Supplier'
+        '204':
+          description: The supplier was successfully created.
+        '400':
+          description: The supplier is invalid.
+  /api/Suppliers/$count:
+    get:
+      tags:
+        - Suppliers
+      summary: Retrieves all suppliers.
+      operationId: api/Suppliers/$count
+      parameters:
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+        - name: expand
+          in: query
+          description: Indicates the related entities to be represented inline. The maximum depth is 2.
+          schema:
+            type: string
+        - name: filter
+          in: query
+          description: 'Restricts the set of items returned. The maximum number of expressions is 100. The allowed functions are: allfunctions.'
+          schema:
+            type: string
+        - name: orderby
+          in: query
+          description: Specifies the order in which items are returned. The maximum number of expressions is 5.
+          schema:
+            type: string
+        - name: top
+          in: query
+          description: Limits the number of items returned from a collection. The maximum value is 100.
+          schema:
+            type: integer
+            format: int32
+        - name: skip
+          in: query
+          description: Excludes the specified number of items of the queried collection from the result.
+          schema:
+            type: integer
+            format: int32
+        - name: count
+          in: query
+          description: Indicates whether the total count of items within a collection are returned in the result.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Suppliers successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierIEnumerableODataValue'
+  '/api/Suppliers/{key}':
+    get:
+      tags:
+        - Suppliers
+      summary: Gets a single supplier.
+      operationId: 'api/Suppliers/{key}'
+      parameters:
+        - name: key
+          in: path
+          description: The requested supplier identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+        - name: expand
+          in: query
+          description: Indicates the related entities to be represented inline. The maximum depth is 2.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The supplier was successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Supplier'
+        '404':
+          description: The supplier does not exist.
+    patch:
+      tags:
+        - Suppliers
+      summary: Updates an existing supplier.
+      operationId: 'api/Suppliers/{key}'
+      parameters:
+        - name: key
+          in: path
+          description: The requested supplier identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+      requestBody:
+        description: The partial supplier to update.
+        content:
+          application/json;odata.metadata=minimal;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.metadata=minimal;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.metadata=minimal:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.metadata=full;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.metadata=full;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.metadata=full:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.metadata=none;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.metadata=none;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.metadata=none:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+      responses:
+        '200':
+          description: The supplier was successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Supplier'
+        '204':
+          description: The supplier was successfully updated.
+        '400':
+          description: The supplier is invalid.
+        '404':
+          description: The supplier does not exist.
+    put:
+      tags:
+        - Suppliers
+      summary: Updates an existing supplier.
+      operationId: 'api/Suppliers/{key}'
+      parameters:
+        - name: key
+          in: path
+          description: The requested supplier identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+      requestBody:
+        description: The supplier to update.
+        content:
+          application/json;odata.metadata=minimal;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.metadata=minimal;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.metadata=minimal:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.metadata=full;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.metadata=full;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.metadata=full:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.metadata=none;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.metadata=none;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.metadata=none:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+      responses:
+        '200':
+          description: The supplier was successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Supplier'
+        '204':
+          description: The supplier was successfully updated.
+        '400':
+          description: The supplier is invalid.
+        '404':
+          description: The supplier does not exist.
+    delete:
+      tags:
+        - Suppliers
+      summary: Deletes a supplier.
+      operationId: 'api/Suppliers/{key}'
+      parameters:
+        - name: key
+          in: path
+          description: The supplier to delete.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+      responses:
+        '204':
+          description: The supplier was successfully deleted.
+        '404':
+          description: Not Found
+  '/api/Suppliers/{key}/products':
+    get:
+      tags:
+        - Suppliers
+      summary: Gets the products associated with the supplier.
+      operationId: 'api/Suppliers/{key}/products'
+      parameters:
+        - name: key
+          in: path
+          description: The supplier identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+        - name: expand
+          in: query
+          description: Indicates the related entities to be represented inline. The maximum depth is 2.
+          schema:
+            type: string
+        - name: filter
+          in: query
+          description: 'Restricts the set of items returned. The maximum number of expressions is 100. The allowed functions are: allfunctions.'
+          schema:
+            type: string
+        - name: orderby
+          in: query
+          description: Specifies the order in which items are returned. The maximum number of expressions is 5.
+          schema:
+            type: string
+        - name: top
+          in: query
+          description: Limits the number of items returned from a collection. The maximum value is 100.
+          schema:
+            type: integer
+            format: int32
+        - name: skip
+          in: query
+          description: Excludes the specified number of items of the queried collection from the result.
+          schema:
+            type: integer
+            format: int32
+        - name: count
+          in: query
+          description: Indicates whether the total count of items within a collection are returned in the result.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json;odata.metadata=minimal;odata.streaming=true:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=minimal;odata.streaming=false:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=minimal:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=full;odata.streaming=true:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=full;odata.streaming=false:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=full:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=none;odata.streaming=true:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=none;odata.streaming=false:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=none:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.streaming=true:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.streaming=false:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/octet-stream:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+  '/api/Suppliers/{key}/products/$count':
+    get:
+      tags:
+        - Suppliers
+      summary: Gets the products associated with the supplier.
+      operationId: 'api/Suppliers/{key}/products/$count'
+      parameters:
+        - name: key
+          in: path
+          description: The supplier identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+        - name: expand
+          in: query
+          description: Indicates the related entities to be represented inline. The maximum depth is 2.
+          schema:
+            type: string
+        - name: filter
+          in: query
+          description: 'Restricts the set of items returned. The maximum number of expressions is 100. The allowed functions are: allfunctions.'
+          schema:
+            type: string
+        - name: orderby
+          in: query
+          description: Specifies the order in which items are returned. The maximum number of expressions is 5.
+          schema:
+            type: string
+        - name: top
+          in: query
+          description: Limits the number of items returned from a collection. The maximum value is 100.
+          schema:
+            type: integer
+            format: int32
+        - name: skip
+          in: query
+          description: Excludes the specified number of items of the queried collection from the result.
+          schema:
+            type: integer
+            format: int32
+        - name: count
+          in: query
+          description: Indicates whether the total count of items within a collection are returned in the result.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json;odata.metadata=minimal;odata.streaming=true:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=minimal;odata.streaming=false:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=minimal:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=full;odata.streaming=true:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=full;odata.streaming=false:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=full:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=none;odata.streaming=true:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=none;odata.streaming=false:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.metadata=none:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.streaming=true:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json;odata.streaming=false:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/octet-stream:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+  '/api/Suppliers/{key}/products/{relatedKey}/$ref':
+    delete:
+      tags:
+        - Suppliers
+      summary: Unlinks a product from a supplier.
+      operationId: 'api/Suppliers/{key}/{navigationProperty}/{relatedKey}/$ref'
+      parameters:
+        - name: key
+          in: path
+          description: The supplier identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: relatedKey
+          in: path
+          description: The related entity identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+  '/api/Suppliers/{key}/products/$ref':
+    put:
+      tags:
+        - Suppliers
+      summary: Links a product to a supplier.
+      operationId: 'api/Suppliers/{key}/{navigationProperty}/$ref'
+      parameters:
+        - name: key
+          in: path
+          description: The supplier identifier.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: query
+          description: The requested API version
+          required: true
+          schema:
+            type: string
+            default: '3.0'
+        - name: select
+          in: query
+          description: Limits the properties returned in the result.
+          schema:
+            type: string
+      requestBody:
+        description: The related entity identifier.
+        content:
+          application/json;odata.metadata=minimal;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.metadata=minimal;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.metadata=minimal:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.metadata=full;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.metadata=full;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.metadata=full:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.metadata=none;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.metadata=none;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.metadata=none:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.streaming=true:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json;odata.streaming=false:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/ODataId'
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+components:
+  schemas:
+    Address:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Gets or sets the address identifier.
+          format: int32
+        street:
+          type: string
+          description: Gets or sets the street address.
+          nullable: true
+        city:
+          type: string
+          description: Gets or sets the address city.
+          nullable: true
+        state:
+          type: string
+          description: Gets or sets the address state.
+          nullable: true
+        zipCode:
+          type: string
+          description: Gets or sets the address zip code.
+          nullable: true
+      additionalProperties: false
+      description: Represents an address.
+    LineItem:
+      type: object
+      properties:
+        number:
+          type: integer
+          description: Gets or sets the line item number.
+          format: int32
+        description:
+          type: string
+          description: Gets or sets the line item description.
+          nullable: true
+        quantity:
+          type: integer
+          description: Gets or sets the line item quantity.
+          format: int32
+        unitPrice:
+          type: number
+          description: Gets or sets the line item unit price.
+          format: double
+        fulfilled:
+          type: boolean
+          description: Gets or sets a value indicating whether the line item is fulfilled.
+      additionalProperties: false
+      description: Represents the line item on an order.
+    LineItemIEnumerableODataValue:
+      type: object
+      properties:
+        value:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineItem'
+          nullable: true
+      additionalProperties: false
+    ODataId:
+      type: object
+      properties:
+        '@odata.id':
+          type: string
+          format: uri
+          nullable: true
+      additionalProperties: false
+    Order:
+      required:
+        - customer
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Gets or sets the unique identifier for the order.
+          format: int32
+        createdDate:
+          type: string
+          description: Gets or sets the date and time when the order was created.
+          format: date-time
+        effectiveDate:
+          type: string
+          description: Gets or sets the date and time when the order becomes effective.
+          format: date-time
+        customer:
+          minLength: 1
+          type: string
+          description: Gets or sets the name of the ordering customer.
+        description:
+          type: string
+          description: Gets or sets a description for the order.
+          nullable: true
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineItem'
+          description: Gets a list of line items in the order.
+          nullable: true
+          readOnly: true
+      additionalProperties: false
+      description: Represents an order.
+    OrderIEnumerableODataValue:
+      type: object
+      properties:
+        value:
+          type: array
+          items:
+            $ref: '#/components/schemas/Order'
+          nullable: true
+      additionalProperties: false
+    OrdersRateParameters:
+      required:
+        - rating
+      type: object
+      properties:
+        rating:
+          type: integer
+          format: int32
+      additionalProperties: false
+    PeoplePromoteParameters:
+      type: object
+      properties:
+        title:
+          type: string
+          nullable: true
+      additionalProperties: false
+    Person:
+      required:
+        - firstName
+        - lastName
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Gets or sets the unique identifier for a person.
+          format: int32
+        firstName:
+          maxLength: 25
+          minLength: 0
+          type: string
+          description: Gets or sets the first name of a person.
+        lastName:
+          maxLength: 25
+          minLength: 0
+          type: string
+          description: Gets or sets the last name of a person.
+        email:
+          type: string
+          description: Gets or sets the email address for a person.
+          nullable: true
+        phone:
+          type: string
+          description: Gets or sets the telephone number for a person.
+          nullable: true
+        homeAddress:
+          $ref: '#/components/schemas/Address'
+        workAddress:
+          $ref: '#/components/schemas/Address'
+      additionalProperties: false
+      description: Represents a person.
+    PersonIEnumerableODataValue:
+      type: object
+      properties:
+        value:
+          type: array
+          items:
+            $ref: '#/components/schemas/Person'
+          nullable: true
+      additionalProperties: false
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Gets or sets the unique identifier for the product.
+          format: int32
+        name:
+          type: string
+          description: Gets or sets the product name.
+          nullable: true
+        price:
+          type: number
+          description: Gets or sets the product price.
+          format: double
+        category:
+          type: string
+          description: Gets or sets the product category.
+          nullable: true
+        supplierId:
+          type: integer
+          description: Gets or sets the associated supplier identifier.
+          format: int32
+          nullable: true
+        supplier:
+          $ref: '#/components/schemas/Supplier'
+      additionalProperties: false
+      description: Represents a product.
+    ProductIEnumerableODataValue:
+      type: object
+      properties:
+        value:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+          nullable: true
+      additionalProperties: false
+    Supplier:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Gets or sets the unique identifier for the supplier.
+          format: int32
+        name:
+          type: string
+          description: Gets or sets the supplier name.
+          nullable: true
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+          description: Gets or sets products associated with the supplier.
+          nullable: true
+      additionalProperties: false
+      description: Represents a supplier.
+    SupplierIEnumerableODataValue:
+      type: object
+      properties:
+        value:
+          type: array
+          items:
+            $ref: '#/components/schemas/Supplier'
+          nullable: true
+      additionalProperties: false
+    SupplierODataValue:
+      type: object
+      properties:
+        value:
+          $ref: '#/components/schemas/Supplier'
+      additionalProperties: false

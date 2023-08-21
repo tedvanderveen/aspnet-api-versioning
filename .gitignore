@@ -53,3 +53,4 @@ _ReSharper*/
 _NCrunch_*/
 _NCrunch_*
 *.ncrunch*
+/examples/AspNetCore/OData/ODataOpenApiExample.Client/Generated

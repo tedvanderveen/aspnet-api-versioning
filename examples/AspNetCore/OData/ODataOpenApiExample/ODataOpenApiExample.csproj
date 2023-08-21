@@ -5,12 +5,25 @@
   <GenerateDocumentationFile>true</GenerateDocumentationFile>
  </PropertyGroup>
 
+ <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Debug'">
+  <Exec Command="dotnet tool restore" />
+  <Exec Command="dotnet swagger tofile --output openapi.0.9.yaml --yaml $(OutputPath)\$(AssemblyName).dll v0.9" />
+  <Exec Command="dotnet swagger tofile --output openapi.1.0.yaml --yaml $(OutputPath)\$(AssemblyName).dll v1" />
+  <Exec Command="dotnet swagger tofile --output openapi.2.0.yaml --yaml $(OutputPath)\$(AssemblyName).dll v2" />
+  <Exec Command="dotnet swagger tofile --output openapi.3.0.yaml --yaml $(OutputPath)\$(AssemblyName).dll v3" />
+ </Target>
+
  <ItemGroup>
-  <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0-*" />
+   <Content Include=".config\dotnet-tools.json" />
+ </ItemGroup>
+
+ <ItemGroup>
+  <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+   <PackageReference Update="Microsoft.AspNetCore.OData" Version="8.2.1" />
  </ItemGroup>
 
  <ItemGroup>
    <ProjectReference Include="..\..\..\..\src\AspNetCore\OData\src\Asp.Versioning.OData.ApiExplorer\Asp.Versioning.OData.ApiExplorer.csproj" />
  </ItemGroup>
- 
+
 </Project>
